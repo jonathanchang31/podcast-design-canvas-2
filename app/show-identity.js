@@ -62,7 +62,9 @@
     }
     next.speakers = defaults.map((item) => {
       const speaker = ES.createSpeaker(item.role || "Host");
-      speaker.name = trim(item.name);
+      // Carry forward role buckets and saved social context, but keep the new episode
+      // speaker identity blank so the creator enters the people on this recording.
+      speaker.name = "";
       speaker.trackLabel = trim(item.trackLabel);
       if (item.social && typeof item.social === "object") {
         speaker.social = Object.assign({}, speaker.social, item.social);

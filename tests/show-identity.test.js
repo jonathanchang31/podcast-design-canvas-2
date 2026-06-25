@@ -75,7 +75,7 @@ function foundersShow(store) {
   });
 }
 
-test("buildSetupDraft prefills episode name, host speakers, and social context", () => {
+test("buildSetupDraft prefills episode context while leaving speaker names blank", () => {
   library._resetCounters();
   const show = foundersShow(templateStoreForShow());
   show.episodes = [{ id: "ep-1", name: "Pilot" }];
@@ -83,7 +83,9 @@ test("buildSetupDraft prefills episode name, host speakers, and social context",
   assert.strictEqual(draft.episodeName, "Founders Unfiltered — Episode 2");
   assert.strictEqual(draft.sourceMode, "riverside");
   assert.strictEqual(draft.riversideLink, "https://riverside.fm/studio/founders");
-  assert.strictEqual(draft.speakers[0].name, "Sam Rivera");
+  assert.strictEqual(draft.speakers[0].name, "");
+  assert.strictEqual(draft.speakers[1].name, "");
+  assert.strictEqual(draft.speakers[0].role, "Host");
   assert.strictEqual(draft.speakers[0].social.twitter, "https://x.com/samrivera");
   assert.strictEqual(setup.summarize(draft).socialLinkCount, 3);
 });
@@ -137,6 +139,8 @@ test("ACCEPTANCE: choose a saved show and start a new episode from its establish
   const start = identity.buildEpisodeStart(library.getShow(lib, show.id), store);
   assert.strictEqual(start.showName, "Founders Unfiltered");
   assert.strictEqual(start.setupDraft.speakers[0].role, "Host");
+  assert.strictEqual(start.setupDraft.speakers[0].name, "");
+  assert.strictEqual(start.setupDraft.speakers[1].name, "");
   assert.strictEqual(start.appliedStyle.captionStyle, "Big animated captions");
   assert.ok(start.canvasDoc.titleText || start.canvasDoc.presetName);
 
