@@ -59,6 +59,7 @@ test("ACCEPTANCE: create-show path starts episode import with setup draft, not b
   const start = identity.buildEpisodeStart(stored, { templates: [] });
   assert.ok(start.setupDraft);
   assert.ok(Array.isArray(start.setupDraft.speakers));
+  assert.ok(start.setupDraft.speakers.every((speaker) => speaker.name === ""));
   assert.strictEqual(stored.brandKit, null);
   assert.ok(/Episode 1/.test(start.setupDraft.episodeName));
 });

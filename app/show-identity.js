@@ -62,7 +62,10 @@
     }
     next.speakers = defaults.map((item) => {
       const speaker = ES.createSpeaker(item.role || "Host");
-      speaker.name = trim(item.name);
+      // Saved show identity should preserve role and social context, but a new episode
+      // must start with a blank speaker-name field so creators enter the actual people
+      // on this recording instead of inheriting stale show or episode labels.
+      speaker.name = "";
       speaker.trackLabel = trim(item.trackLabel);
       if (item.social && typeof item.social === "object") {
         speaker.social = Object.assign({}, speaker.social, item.social);
